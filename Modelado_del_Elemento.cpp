@@ -8,17 +8,19 @@ struct Elemento{
     float capacidadMaxima;
     int capacidad[10] = {1,2,3,4,5,6,7,8,9,10};
     float factorUtilizacion;
-    float estadoSeguridad;
+    std::string estadoSeguridad;
 };
 
 void registrarElemento(Elemento &elemento);
 float calcularFactor(Elemento *elemento);
+void determinarSeguridad(Elemento &elemento);
 
 int main(){
     Elemento elemento;
 
     registrarElemento(elemento);
     calcularFactor(&elemento);
+    determinarSeguridad(elemento);
 
     return 0;
 }
@@ -69,4 +71,16 @@ float calcularFactor(Elemento *elemento){
     elemento->factorUtilizacion = cargaPromedio / elemento->capacidadMaxima;
 
     return elemento->factorUtilizacion;
+}
+
+void determinarSeguridad(Elemento &elemento){
+    if(elemento.factorUtilizacion >= 0.00 || elemento.factorUtilizacion <= 0.50){
+        elemento.estadoSeguridad = "SEGURO";
+    }else if(elemento.factorUtilizacion > 0.50 || elemento.factorUtilizacion <= 0.80){
+        elemento.estadoSeguridad = "PRECAUCION";
+    }else if(elemento.factorUtilizacion > 0.80 || elemento.factorUtilizacion <= 1.00){
+        elemento.estadoSeguridad = "RIESGO";
+    }else if(elemento.factorUtilizacion > 1.00){
+        elemento.estadoSeguridad = "SOBRECARGA";
+    }
 }
